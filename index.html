@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>З Днем Народження!</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Google Fonts: Inter & Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3, .font-heading {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Анімації для літаючих фото на фінальному кроці */
+        @keyframes float-1 {
+            0%, 100% { transform: translateY(0px) rotate(-3deg); }
+            50% { transform: translateY(-18px) rotate(3deg); }
+        }
+        @keyframes float-2 {
+            0%, 100% { transform: translateY(0px) rotate(4deg); }
+            50% { transform: translateY(-22px) rotate(-2deg); }
+        }
+        @keyframes float-3 {
+            0%, 100% { transform: translateY(0px) rotate(-2deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+        @keyframes float-4 {
+            0%, 100% { transform: translateY(0px) rotate(3deg); }
+            50% { transform: translateY(-25px) rotate(-4deg); }
+        }
+
+        .animate-float-1 { animation: float-1 5s ease-in-out infinite; }
+        .animate-float-2 { animation: float-2 6s ease-in-out infinite; }
+        .animate-float-3 { animation: float-3 5.5s ease-in-out infinite; }
+        .animate-float-4 { animation: float-4 6.5s ease-in-out infinite; }
+
+        /* Плавний перехід картки */
+        .card-transition {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800 min-h-screen text-slate-100 flex flex-col justify-between items-center p-4 md:p-8 overflow-x-hidden">
+
+    <!-- Верхня панель з індикатором прогресу (для кроків 1-4) -->
+    <header id="progress-container" class="w-full max-w-xl mb-6">
+        <div class="flex justify-between items-center mb-2">
+            <span class="text-xs uppercase tracking-widest text-pink-300 font-semibold" id="step-label">Крок 1 з 10</span>
+            <span class="text-xs text-slate-300 font-medium" id="step-percent">10%</span>
+        </div>
+        <div class="w-full bg-white/20 rounded-full h-2.5 backdrop-blur-sm overflow-hidden">
+            <div id="progress-bar" class="bg-gradient-to-r from-pink-500 to-yellow-400 h-2.5 rounded-full transition-all duration-500" style="width: 11%"></div>
+        </div>
+    </header>
+
+    <!-- Основний контейнер для карток -->
+    <main class="w-full max-w-xl my-auto">
+
+        <!-- ================= КРОК 1 ================= -->
+        <div id="step-1" class="step-card card-transition bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 md:p-8 shadow-2xl">
+            <div class="relative overflow-hidden rounded-2xl mb-6 shadow-md">
+                <img src="media/PAGON.png" alt="Спогад 1" class="block w-full h-auto">
+            </div>
+            <!-- ✏️ ПОРАДА: Змініть заголовок та текст нижче -->
+            <h2 class="text-2xl md:text-3xl font-bold mb-3 text-white">Ну шо йопти <br>Думав я забув <H1>ХУЙ ТАМ</H1></h2>
+            <p class="text-slate-200 leading-relaxed mb-8">
+                Сьогодні ти на рік ближче до сивої піськи. <br>Дай бог тобі таких пагонів
+            </p>
+            <div class="flex justify-end gap-4">
+                <button onclick="nextStep()" class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-pink-500/30 transition transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2">
+                    Далі ➔
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= КРОК 2 ================= -->
+        <div id="step-2" class="step-card card-transition hidden bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 md:p-8 shadow-2xl">
+            <div class="relative overflow-hidden rounded-2xl mb-6 shadow-md">
+                <img src="media/gopa.jpg" alt="Спогад 2" class="block w-full h-auto">
+            </div>
+            <!-- ✏️ ПОРАДА: Змініть заголовок та текст нижче -->
+            <h2 class="text-2xl md:text-3xl font-bold mb-3 text-white">Прикинь</h2>
+            <p class="text-slate-200 leading-relaxed mb-8">
+                Ця ЖОПА НА БАРАДЕ святкує вже 19 рік"
+            </p>
+            <div class="flex justify-between gap-4">
+                <button onclick="prevStep()" class="px-5 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition flex items-center gap-2 border border-white/10">
+                    ⬅ Назад
+                </button>
+                <button onclick="nextStep()" class="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-pink-500/30 transition transform hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2">
+                    Далі ➔
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= КРОК 3 ================= -->
+        <div id="step-3" class="step-card card-transition hidden bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 md:p-8 shadow-2xl">
+            <div>
+                <h2 class="text-2xl md:text-3xl font-bold mb-3 text-white">То вже не малий вік</h2>
+            <p class="text-slate-200 leading-relaxed mb-8">
+                Кажуть що з роками приходить мудрість
+                Нас то правило обійшло походу
+            </p>
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <img src="media/dubil_2.jpg" alt="Спогад 3 — фото 1" class="block w-full h-auto rounded-2xl shadow-md">
+                    <img src="media/Dubilu.jpg" alt="Спогад 3 — фото 2" class="block w-full h-auto rounded-2xl shadow-md">
+                </div>
+            </div>
+            <!-- ✏️ ПОРАДА: Змініть заголовок та текст нижче -->
+            <div class="flex justify-between gap-4">
+                <button onclick="prevStep()" class="px-5 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition flex items-center gap-2 border border-white/10">
+                    ⬅ Назад
+                </button>
+                <button onclick="nextStep()" class="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-pink-500/30 transition transform hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2">
+                    Далі ➔
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= КРОК 4 ================= -->
+        <div id="step-4" class="step-card card-transition hidden bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 md:p-8 shadow-2xl">
+            <div class="relative overflow-hidden rounded-2xl mb-6 shadow-md">
+                <img src="media/Palicai.jpg" alt="Спогад 4" class="block w-full h-auto">
+            </div>
+            <!-- ✏️ ПОРАДА: Змініть заголовок та текст нижче -->
+            <h2 class="text-2xl md:text-3xl font-bold mb-3 text-white">Ти паліцай</h2>
+            <p class="text-slate-200 leading-relaxed mb-8">
+                Хоч ти і пішов в лави мінтури
+            </p>
+            <div class="flex justify-between gap-4">
+                <button onclick="prevStep()" class="px-5 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition flex items-center gap-2 border border-white/10">
+                    ⬅ Назад
+                </button>
+                <button onclick="nextStep()" class="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-pink-500/30 transition transform hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2">
+                    Далі ➔
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= КРОКИ 5-9 ================= -->
+        <div id="step-5" class="step-card card-transition hidden bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 md:p-8 shadow-2xl">
+            <div class="relative overflow-hidden rounded-2xl mb-6 shadow-md">
+                <img src="media/STON.jpg" alt="Спогад 5" class="block w-full h-auto">
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold mb-3 text-white">Ти зважди був граза района</h2>
+            <p class="text-slate-200 leading-relaxed mb-8">В тобі билось серце бандоса
+            </p>
+            <div class="flex justify-between gap-4">
+                <button onclick="prevStep()" class="px-5 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition flex items-center gap-2 border border-white/10">⬅ Назад</button>
+                <button onclick="nextStep()" class="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg transition flex items-center gap-2">Далі ➔</button>
+            </div>
+        </div>
+
+        <div id="step-6" class="step-card card-transition hidden bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 md:p-8 shadow-2xl">
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <img src="media/lusui.jpg" alt="Спогад 6 — фото 1" class="block w-full h-auto rounded-2xl shadow-md">
+                <img src="media/vysa.jpg" alt="Спогад 6 — фото 2" class="block w-full h-auto rounded-2xl shadow-md">
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold mb-3 text-white">І який би ти не був</h2>
+            <p class="text-slate-200 leading-relaxed mb-8">Лисий чи вусатий</p>
+            <div class="flex justify-between gap-4">
+                <button onclick="prevStep()" class="px-5 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition flex items-center gap-2 border border-white/10">⬅ Назад</button>
+                <button onclick="nextStep()" class="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg transition flex items-center gap-2">Далі ➔</button>
+            </div>
+        </div>
+
+        <div id="step-7" class="step-card card-transition hidden bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 md:p-8 shadow-2xl">
+            <div class="relative overflow-hidden rounded-2xl mb-6 shadow-md">
+                <img src="media/prasitutka.jpg" alt="Спогад 7" class="block w-full h-auto">
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold mb-3 text-white">І навіть</h2>
+            <p class="text-slate-200 leading-relaxed mb-8">Яукщо ти станеш прастітуткою</p>
+            <div class="flex justify-between gap-4">
+                <button onclick="prevStep()" class="px-5 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition flex items-center gap-2 border border-white/10">⬅ Назад</button>
+                <button onclick="nextStep()" class="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg transition flex items-center gap-2">Далі ➔</button>
+            </div>
+        </div>
+
+        <div id="step-8" class="step-card card-transition hidden bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 md:p-8 shadow-2xl">
+            <div class="relative overflow-hidden rounded-2xl mb-6 shadow-md">
+                <img src="media/Bro.jpg" alt="Спогад 8" class="block w-full h-auto">
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold mb-3 text-white">Ти завжди будеш моїм братом</h2>
+            <p class="text-slate-200 leading-relaxed mb-8">Хоть ти і мєнт Але ти мій мєнт</p>
+            <div class="flex justify-between gap-4">
+                <button onclick="prevStep()" class="px-5 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition flex items-center gap-2 border border-white/10">⬅ Назад</button>
+                <button onclick="nextStep()" class="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg transition flex items-center gap-2">Далі ➔</button>
+            </div>
+        </div>
+
+        <div id="step-9" class="step-card card-transition hidden bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 md:p-8 shadow-2xl">
+            <div class="relative overflow-hidden rounded-2xl mb-6 shadow-md">
+                <img src="media/Nast.jpg" alt="Спогад 9" class="block w-full h-auto">
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold mb-3 text-white">І навіть якщо хтось захоче тебе в мене забрати</h2>
+            <p class="text-slate-200 leading-relaxed mb-8">Я завжди буду збоку і не віддам</p>
+            <div class="flex justify-between gap-4">
+                <button onclick="prevStep()" class="px-5 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition flex items-center gap-2 border border-white/10">⬅ Назад</button>
+                <button onclick="nextStep()" class="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg transition flex items-center gap-2">Далі ➔</button>
+            </div>
+        </div>
+
+        <div id="step-10" class="step-card card-transition hidden bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 md:p-8 shadow-2xl">
+            <div class="relative overflow-hidden rounded-2xl mb-6 shadow-md">
+                <img src="media/smile.jpg" alt="Спогад 10" class="block w-full h-auto">
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold mb-3 text-white">І зашкірсі троха</h2>
+            <p class="text-slate-200 leading-relaxed mb-8">в тебе днюха челавєк</p>
+            <div class="flex justify-between gap-4">
+                <button onclick="prevStep()" class="px-5 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition flex items-center gap-2 border border-white/10">⬅ Назад</button>
+                <button onclick="nextStep()" class="px-6 py-3 bg-gradient-to-r from-yellow-400 to-pink-500 hover:from-yellow-500 hover:to-pink-600 text-slate-900 font-bold rounded-xl shadow-xl transition flex items-center gap-2">Перейти до сюрпризу 🎉</button>
+            </div>
+        </div>
+
+        <!-- ================= КРОК 11: ФІНАЛ ================= -->
+        <div id="step-11" class="step-card card-transition hidden text-center my-6">
+            
+            <div class="inline-block p-3 bg-white/10 backdrop-blur-md rounded-full mb-4 border border-white/20 animate-bounce">
+                <span class="text-4xl">🎂</span>
+            </div>
+
+            <!-- Головний Заголовок -->
+            <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-pink-400 to-purple-300 mb-6 drop-shadow">
+                З Днем Народження, Друже!
+            </h1>
+
+            <!-- Велике Привітання -->
+            <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 md:p-8 shadow-2xl mb-10 text-left">
+                <!-- ✏️ ПОРАДА: Напишіть тут ваше велике щире привітання -->
+                <p class="text-lg md:text-xl text-slate-100 leading-relaxed mb-4">
+                    Бажаю тобі міцного здоров'я, невичерпної енергії та здійснення всіх найсміливіших мрій! 🚀
+                </p>
+                <p class="text-slate-200 leading-relaxed mb-4">
+                    Дякую тобі за всі наші спільні пригоди, підтримку та за те, що ти завжди поруч. Нехай цей рік принесе тобі море позитиву, крутих можливостей та незабутніх моментів!
+                </p>
+                <p class="text-pink-300 font-semibold text-right text-lg">
+                    — Твій найкращий друг ✨
+                </p>
+            </div>
+
+            <!-- Блок з літаючими/плаваючими фотографіями -->
+            <h3 class="text-xl font-bold mb-6 text-slate-200">Наші найкращі фото (натисни, щоб розглянути):</h3>
+            
+            <div id="photo-gallery" class="grid grid-cols-2 gap-4 md:gap-6 mb-12">
+            </div>
+
+            <!-- Кнопки дій на фіналі -->
+            <div class="flex flex-wrap justify-center gap-4">
+                <button onclick="launchConfetti()" class="px-6 py-3 bg-pink-500/20 hover:bg-pink-500/30 text-pink-200 border border-pink-400/30 font-semibold rounded-xl transition flex items-center gap-2 backdrop-blur-sm">
+                    Запустити конфеті ще раз 🎉
+                </button>
+                <button onclick="restart()" class="px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition border border-white/10">
+                    🔄 З початку
+                </button>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Модальне вікно для збільшення фотографій -->
+    <div id="image-modal" onclick="closeModal()" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 transition-opacity duration-300">
+        <div class="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center">
+            <img id="modal-img" src="" alt="Перегляд фото" class="max-w-full max-h-[80vh] object-contain rounded-2xl border border-white/20 shadow-2xl">
+            <p class="text-slate-400 text-sm mt-4">Натисніть у будь-якому місці, щоб закрити</p>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <footer class="text-center text-xs text-slate-400 mt-8">
+        Зроблено з любов'ю ❤️ | З Днем Народження!
+    </footer>
+
+    <!-- Скрипт керування сторінкою -->
+    <script>
+        let currentStep = 1;
+        const totalSteps = 10; // Основні кроки з прогресом
+        const galleryPhotos = [
+            'Bro.jpg',
+            'Dubilu.jpg',
+            'Nast.jpg',
+            'PAGON.png',
+            'Palicai.jpg',
+            'STON.jpg',
+            'dubil_2.jpg',
+            'gopa.jpg',
+            'lusui.jpg',
+            'photo_11_2026-10-15_19-23-23.jpg',
+            'photo_16_2026-10-15_19-23-23.jpg',
+            'photo_17_2026-10-15_19-23-23.jpg',
+            'photo_18_2026-10-15_19-23-23.jpg',
+            'photo_2_2026-10-15_19-23-23.jpg',
+            'photo_4_2026-10-15_19-23-23.jpg',
+            'photo_7_2026-10-15_19-23-23.jpg',
+            'photo_8_2026-10-15_19-23-23.jpg',
+            'sput.jpg',
+            'prasitutka.jpg',
+            'smile.jpg',
+            'vysa.jpg'
+        ];
+
+        function renderGallery() {
+            const gallery = document.getElementById('photo-gallery');
+            galleryPhotos.forEach((photo, index) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = `animate-float-${(index % 4) + 1} cursor-pointer transform hover:scale-110 transition duration-300 bg-white/10 p-2 rounded-2xl border border-white/20 shadow-xl`;
+                wrapper.addEventListener('click', () => openModal(wrapper));
+
+                const image = document.createElement('img');
+                image.src = `media/${photo}`;
+                image.alt = `Фото ${index + 1}`;
+                image.className = 'w-full h-36 md:h-48 object-contain rounded-xl bg-slate-900/40';
+                wrapper.appendChild(image);
+                gallery.appendChild(wrapper);
+            });
+        }
+
+        // Оновлення відображення та прогрес-бару
+        function updateSteps() {
+            // Приховуємо всі кроки
+            document.querySelectorAll('.step-card').forEach(card => card.classList.add('hidden'));
+
+            // Показуємо поточний крок
+            const activeCard = document.getElementById(`step-${currentStep}`);
+            if (activeCard) {
+                activeCard.classList.remove('hidden');
+            }
+
+            // Оновлюємо прогрес-бар
+            const progressContainer = document.getElementById('progress-container');
+            if (currentStep <= totalSteps) {
+                progressContainer.classList.remove('hidden');
+                const percent = Math.round((currentStep / totalSteps) * 100);
+                document.getElementById('progress-bar').style.width = `${percent}%`;
+                document.getElementById('step-label').innerText = `Крок ${currentStep} з ${totalSteps}`;
+                document.getElementById('step-percent').innerText = `${percent}%`;
+            } else {
+                // Приховуємо прогрес-бар на фінальному екрані
+                progressContainer.classList.add('hidden');
+            }
+
+            // Якщо дійшли до фіналу — запускаємо салют із конфеті
+            if (currentStep === totalSteps + 1) {
+                launchConfetti();
+            }
+
+            // Прокручуємо вгору сторінки
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Кнопка "Далі"
+        function nextStep() {
+            if (currentStep < totalSteps + 1) {
+                currentStep++;
+                updateSteps();
+            }
+        }
+
+        // Кнопка "Назад"
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateSteps();
+            }
+        }
+
+        // Почати знову
+        function restart() {
+            currentStep = 1;
+            updateSteps();
+        }
+
+        // Ефект Конфеті
+        function launchConfetti() {
+            if (typeof confetti === 'function') {
+                // Салют зліва і справа
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+                
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 50,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0 }
+                    });
+                    confetti({
+                        particleCount: 50,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1 }
+                    });
+                }, 250);
+            }
+        }
+
+        // Відкриття фото в модальному вікні
+        function openModal(wrapper) {
+            const img = wrapper.querySelector('img');
+            if (img) {
+                document.getElementById('modal-img').src = img.src;
+                document.getElementById('image-modal').classList.remove('hidden');
+            }
+        }
+
+        // Закриття модального вікна
+        function closeModal() {
+            document.getElementById('image-modal').classList.add('hidden');
+        }
+
+        // Ініціалізація при завантаженні
+        document.addEventListener('DOMContentLoaded', () => {
+            renderGallery();
+            updateSteps();
+        });
+    </script>
+</body>
+</html>
